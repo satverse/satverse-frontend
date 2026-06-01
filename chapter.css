@@ -1,0 +1,234 @@
+/* --- RESET & VARIABLES --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-main: #0a0b0d;
+  --bg-surface: #14161d;
+  --bg-card: #1c1f26;
+  --neon-cyan: #00f2fe;
+  --dim-cyan: #00b4db;
+  --text-primary: #ffffff;
+  --text-muted: #a0a5b5;
+  --font-logo: 'Cinzel Decorative', cursive;
+  --font-body: 'Oxanium', sans-serif;
+  --transition-smooth: all 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- NAVIGATION HEADER --- */
+header {
+  background-color: var(--bg-surface);
+  border-bottom: 2px solid var(--bg-card);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.logo {
+  font-family: var(--font-logo);
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.logo span {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+nav input[type="text"] {
+  padding: 10px 16px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  outline: none;
+  width: 280px;
+  transition: var(--transition-smooth);
+}
+
+nav input[type="text"]:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+}
+
+/* --- READER CORE LAYOUT --- */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 25px 20px 15px;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+/* Control Interactive Buttons Layer */
+.action-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.downloadbtn, .readbtn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-smooth);
+  text-transform: uppercase;
+}
+
+/* Read Online Neon Accent State */
+.readbtn {
+  background-color: transparent;
+  color: var(--neon-cyan);
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.1);
+}
+
+.readbtn:hover {
+  background-color: var(--neon-cyan);
+  color: var(--bg-main);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+}
+
+/* Download Muted State */
+.downloadbtn {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px solid transparent;
+}
+
+.downloadbtn:hover {
+  background-color: var(--bg-surface);
+  border-color: var(--text-muted);
+  color: var(--neon-cyan);
+}
+
+/* --- PDF CORE VIEWPORT --- */
+#pdfViewer {
+  width: 90%;
+  max-width: 950px;
+  height: 75vh;
+  margin: 10px auto 100px; /* Base margins padding prevents bottom controls blocking view */
+  background-color: var(--bg-surface);
+  border: 2px solid var(--bg-card);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  display: block;
+}
+
+/* --- STICKY FOOTER ARCHITECTURE --- */
+footer {
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(20, 22, 29, 0.9);
+  border-top: 2px solid var(--bg-card);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+.footer {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.previous, .next {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: var(--transition-smooth);
+  text-transform: uppercase;
+  min-width: 120px;
+}
+
+.previous:hover, .next:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background-color: var(--bg-main);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+}
+
+/* --- RESPONSIVENESS ADAPTATION BREAKPOINTS --- */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  
+  #pdfViewer {
+    width: 95%;
+    height: 65vh;
+  }
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 15px;
+  }
+  nav input[type="text"] {
+    width: 100%;
+  }
+  
+  .action-controls {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .footer {
+    padding: 12px 15px;
+  }
+  
+  .previous, .next {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    min-width: 100px;
+  }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SATVerse - Manga Info</title>
+  <link rel="stylesheet" href="manga.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  
+  <header>
+    <nav class="nav-container">
+      <a href="index.html" class="logo">SAT<span>Verse</span></a>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search Manga...">
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="manga-main-details">
+      <h1 class="title" id="manga-title">Loading Manga Title...</h1>
+    </section>
+
+    <section class="chapters-container">
+      <h2>Chapter Directory</h2>
+      <div class="chapters-wrapper">
+        <ul class="chapters" id="chapters-list">
+          <li class="status-msg">Loading directories...</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="manga.js"></script>
+</body>
+</html>

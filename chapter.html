@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SATVerse - Reader</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="chapter.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#" class="logo">SAT<span>Verse</span></a>
+      <input type="text" name="" id="search-input" placeholder="Search Anime, Manga, Characters">
+    </nav>
+  </header>
+  
+  <h1 id="chapter-heading">Loading...</h1>
+  
+  <div class="action-controls">
+    <button class="downloadbtn" onclick="downloadManga()">Download PDF</button>
+    <button class="readbtn" onclick="loadManga()">Read Online</button>
+  </div>
+
+  <br>
+  <iframe id="pdfViewer"></iframe>
+  
+  <footer>
+    <div class="footer">
+      <button class="previous" id="prev-btn">Previous</button>
+      <button class="next" id="next-btn">Next</button>
+    </div>
+  </footer>
+
+  <script src="chapter.js"></script>
+</body>
+</html>

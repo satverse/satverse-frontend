@@ -1,0 +1,223 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-main: #0a0b0d;
+  --bg-surface: #14161d;
+  --bg-card: #1c1f26;
+  --neon-cyan: #00f2fe;
+  --dim-cyan: #00b4db;
+  --text-primary: #ffffff;
+  --text-muted: #a0a5b5;
+  --font-logo: 'Cinzel Decorative', cursive;
+  --font-body: 'Oxanium', sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header & Navbar */
+header {
+  background-color: var(--bg-surface);
+  border-bottom: 2px solid var(--bg-card);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.logo {
+  font-family: var(--font-logo);
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.logo span {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.search-box input {
+  padding: 10px 16px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  outline: none;
+  width: 280px;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+}
+
+/* Manga Meta Card Grid */
+.manga-main-details {
+  background-color: var(--bg-surface);
+  padding: 30px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.info-bar {
+  display: flex;
+  gap: 15px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.info-bar strong {
+  color: var(--neon-cyan);
+}
+
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+.cover-box .img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  border: 1px solid var(--bg-card);
+}
+
+.des h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: var(--neon-cyan);
+}
+
+.description {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  text-align: justify;
+}
+
+/* Tag Badges Layout */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tags span {
+  background-color: var(--bg-card);
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Chapters Layout Grid */
+.chapters-container {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.chapters-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--neon-cyan);
+  padding-left: 10px;
+}
+
+.chapters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  list-style: none;
+}
+
+.chapters li a {
+  display: block;
+  background-color: var(--bg-surface);
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.chapters li a:hover {
+  background-color: var(--bg-card);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  transform: translateY(-2px);
+}
+
+.status-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-muted);
+  padding: 30px;
+}
+
+/* Responsiveness Media Queries */
+@media (max-width: 800px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .cover-box {
+    max-width: 220px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .search-box input {
+    width: 100%;
+  }
+  .title {
+    font-size: 1.7rem;
+  }
+  .chapters {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
