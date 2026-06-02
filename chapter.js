@@ -1,7 +1,7 @@
 // ==========================================
 // CONFIGURATION: LOCALHOST YA RAILWAY URL
 // ==========================================
-const BACKEND_URL = "http://localhost:3000"; // Live hone ke baad ise Railway link se replace kar dena
+const BACKEND_URL = "https://satverse-backend-production.up.railway.app/"; // Live hone ke baad ise Railway link se replace kar dena
 
 // URL Parameters Parsing
 const urlParams = new URLSearchParams(window.location.search);
