@@ -1,11 +1,12 @@
 // ==========================================
-// CONFIGURATION: LOCALHOST YA RAILWAY URL
+// CONFIGURATION: LOCALHOST YA RAILWAY URL (FIXED SLASH)
 // ==========================================
-const BACKEND_URL = "https://satverse-backend-production.up.railway.app/"; // Live hone ke baad ise Railway link se replace kar dena
+const BACKEND_URL = "https://satverse-backend-production.up.railway.app"; // Removed trailing slash!
 
 // URL Parameters Parsing
 const urlParams = new URLSearchParams(window.location.search);
-const manga = urlParams.get("manga");
+const rawManga = urlParams.get("manga");
+const manga = rawManga ? rawManga.toLowerCase() : null; // Safe lowercase fallback
 const chapterNumStr = urlParams.get("chapter");
 
 // Fallback logic & Redirect if missing
@@ -19,7 +20,7 @@ const currentChapterNum = parseInt(chapterNumStr);
 
 // UI Update
 const heading = document.getElementById("chapter-heading");
-heading.innerText = `${manga.replace("_"," ").toUpperCase()} CHAPTER ${currentChapterNum}`;
+heading.innerText = `${manga.replace(/_/g," ").toUpperCase()} CHAPTER ${currentChapterNum}`;
 
 // Firebase Config
 const firebaseConfig = {
@@ -32,12 +33,14 @@ const firebaseConfig = {
   measurementId: "G-XDN2Y664QJ"
 };
 
-firebase.initializeApp(firebaseConfig);
+// Safe Check initialization
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 const db = firebase.firestore();
 
-// Note: getTelegramLink() function removed. Backend handles verification natively now.
-
 // Core Streaming & Download Triggers
+// Window load hote hi call karne ke liye html script tag ke through ya trigger function set kar lena
 function loadManga() {
   const viewer = document.getElementById('pdfViewer');
   viewer.src = `${BACKEND_URL}/stream-pdf/${manga}/${currentChapterNum}`;
@@ -58,11 +61,9 @@ document.getElementById("prev-btn").onclick = () => {
 document.getElementById("next-btn").onclick = async () => {
   const nextNum = currentChapterNum + 1;
   
-  // Optimization: RAM/Session storage se data uthao, Firebase calls bachao
   let totalChapters = sessionStorage.getItem(`totalChapters_${manga}`);
 
   if (!totalChapters) {
-    // Agar user direct is page par aaya hai (bina manga.html ke)
     const mangaRef = db.collection("mangas").doc(manga);
     const docSnap = await mangaRef.get();
 
