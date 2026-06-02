@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SATVerse - Reader</title>
+  
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="chapter.css">
@@ -27,7 +30,9 @@
   </div>
 
   <br>
-  <iframe id="pdfViewer"></iframe>
+  
+  <div id="pdf-container" style="display: none; width: 100%; max-width: 800px; margin: 0 auto; overflow-y: auto; background: transparent;">
+      </div>
   
   <footer>
     <div class="footer">
