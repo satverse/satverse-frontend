@@ -1,15 +1,14 @@
 // ==========================================
-// CONFIGURATION: LOCALHOST YA RAILWAY URL (FIXED SLASH)
+// CONFIGURATION: LOCALHOST YA RAILWAY URL
 // ==========================================
-const BACKEND_URL = "https://satverse-backend-production.up.railway.app"; // Removed trailing slash!
+const BACKEND_URL = "https://satverse-backend-production.up.railway.app"; 
 
 // URL Parameters Parsing
 const urlParams = new URLSearchParams(window.location.search);
 const rawManga = urlParams.get("manga");
-const manga = rawManga ? rawManga.toLowerCase() : null; // Safe lowercase fallback
+const manga = rawManga ? rawManga.toLowerCase() : null; 
 const chapterNumStr = urlParams.get("chapter");
 
-// Fallback logic & Redirect if missing
 if (!manga || !chapterNumStr) {
   document.body.innerHTML = "<h2 style='color:white; text-align:center; margin-top:50px;'>Invalid Chapter URL. Please use the link provided by the bot.</h2>";
   throw new Error("Missing parameters");
@@ -33,18 +32,63 @@ const firebaseConfig = {
   measurementId: "G-XDN2Y664QJ"
 };
 
-// Safe Check initialization
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 const db = firebase.firestore();
 
-// Core Streaming & Download Triggers
-// Window load hote hi call karne ke liye html script tag ke through ya trigger function set kar lena
-function loadManga() {
-  const viewer = document.getElementById('pdfViewer');
-  viewer.src = `${BACKEND_URL}/stream-pdf/${manga}/${currentChapterNum}`;
-  viewer.style.display = "inline-block";
+
+// ==========================================
+// CRITICAL INJECTION: PDF.js Engine Setup
+// ==========================================
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+async function loadManga() {
+    const container = document.getElementById('pdf-container');
+    container.style.display = "block";
+    container.innerHTML = "<p style='color: white; text-align: center; margin-top: 20px;'>Loading Manga... Please wait.</p>";
+
+    const pdfUrl = `${BACKEND_URL}/stream-pdf/${manga}/${currentChapterNum}`;
+
+    try {
+        const loadingTask = pdfjsLib.getDocument(pdfUrl);
+        const pdf = await loadingTask.promise;
+        
+        container.innerHTML = ""; // Clear loading text
+
+        // Sequential rendering loop
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+            
+            // Adjust scale for quality vs performance
+            const viewport = page.getViewport({ scale: 1.5 }); 
+            
+            const canvas = document.createElement('canvas');
+            canvas.style.display = "block";
+            canvas.style.margin = "0 auto 10px auto"; 
+            canvas.style.maxWidth = "100%"; 
+            canvas.style.height = "auto";
+            canvas.style.borderRadius = "5px"; // Slight visual enhancement
+            
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            container.appendChild(canvas);
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            
+            // Wait for render before initiating the next to prevent memory overflow
+            await page.render(renderContext).promise; 
+        }
+    } catch (error) {
+        console.error('Error loading PDF Engine:', error);
+        container.innerHTML = "<p style='color: red; text-align: center; margin-top: 20px;'>Error loading chapter. Server might be calculating cache or link is invalid.</p>";
+    }
 }
 
 function downloadManga() {
