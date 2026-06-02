@@ -1,5 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
-const manga = urlParams.get('manga');
+const rawManga = urlParams.get('manga');
+// CRITICAL: Bot database me lowercase formatting use karta hai
+const manga = rawManga ? rawManga.toLowerCase() : null;
 
 const firebaseConfig = {
   apiKey: "AIzaSyDikMWMhhAc5BUfhpC8nmmXMxPqGRbJWLM",
@@ -11,7 +13,10 @@ const firebaseConfig = {
   measurementId: "G-XDN2Y664QJ"
 };
 
-firebase.initializeApp(firebaseConfig);
+// CRITICAL FIX: Safe initialization checking
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 const db = firebase.firestore();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,14 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
   
-  document.getElementById('manga-title').innerText = manga.replace("_", " ").toUpperCase();
+  document.getElementById('manga-title').innerText = manga.replace(/_/g, " ").toUpperCase();
   initializeMangaContext(manga);
   chapterlistsetting();
 });
 
 async function initializeMangaContext(mangaName) {
   try {
-    const cleanedQuery = mangaName.replace("_", " ");
+    const cleanedQuery = mangaName.replace(/_/g, " ");
     const targetUrl = `https://api.mangadex.org/manga?title=${encodeURIComponent(cleanedQuery)}&limit=1`;
     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
 
@@ -43,7 +48,7 @@ async function initializeMangaContext(mangaName) {
     
     hydrateMangaMetadataUI(searchResult.data[0]);
   } catch (error) {
-    // Errors silently bypassed to prevent structural breakdown
+    // Errors silently bypassed
   }
 }
 
